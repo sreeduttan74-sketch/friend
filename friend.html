@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For My Best Friend 🌟</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      padding: 20px 0;
+    }
+
+    .card {
+      width: 92%;
+      max-width: 480px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.4s ease-in-out forwards;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .card::-webkit-scrollbar {
+      width: 6px;
+    }
+    .card::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, 0.4);
+      border-radius: 10px;
+    }
+
+    .card.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #38bdf8;
+      font-size: 1.4rem;
+    }
+
+    p {
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: #ececec;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    p.center-text {
+      text-align: center;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      padding: 13px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
+      transition: transform 0.2s, background 0.2s;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    /* PASSCODE */
+    .pin-display {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .pin-dot {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #38bdf8;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+
+    .pin-dot.filled {
+      background-color: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 260px;
+      margin: 0 auto;
+    }
+
+    .key {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0 auto;
+      user-select: none;
+    }
+
+    /* MCQ OPTIONS */
+    .option-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+
+    .option-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* COUPONS */
+    .coupon-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 15px 0;
+    }
+
+    .coupon-card {
+      background: rgba(255, 255, 255, 0.12);
+      border: 2px dashed #38bdf8;
+      border-radius: 14px;
+      padding: 16px 8px;
+      cursor: pointer;
+    }
+
+    .coupon-card.redeemed {
+      background: rgba(56, 189, 248, 0.3);
+      border-style: solid;
+    }
+
+    /* BALLOON POP AREA */
+    .balloon-area {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: rgba(0,0,0,0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 15px 0;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .balloon {
+      position: absolute;
+      font-size: 2.2rem;
+      cursor: pointer;
+      animation: floatUp 3s linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% { bottom: -40px; }
+      100% { bottom: 230px; }
+    }
+
+    /* TIC TAC TOE */
+    .ttt-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 240px;
+      margin: 15px auto;
+    }
+
+    .ttt-cell {
+      height: 70px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* SCRATCH CARD */
+    .scratch-container {
+      position: relative;
+      width: 280px;
+      height: 140px;
+      margin: 15px auto;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .scratch-secret {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #38bdf8;
+      color: #0f2027;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      padding: 15px;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    canvas.scratch-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+
+    /* STAR CATCHER */
+    .catch-area {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+
+    .falling-star {
+      position: absolute;
+      font-size: 2rem;
+      cursor: pointer;
+      animation: fall 2.2s linear forwards;
+    }
+
+    @keyframes fall {
+      0% { top: -40px; }
+      100% { top: 210px; }
+    }
+
+    /* MEMORY GAME */
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .memory-tile {
+      height: 55px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* WHEEL */
+    .wheel-container {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 15px auto;
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid #38bdf8;
+      background: conic-gradient(
+        #00c6ff 0deg 90deg,
+        #a855f7 90deg 180deg,
+        #f59e0b 180deg 270deg,
+        #10b981 270deg 360deg
+      );
+      transition: transform 3s cubic-bezier(0.15, 0.99, 0.18, 1);
+    }
+
+    .pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 18px solid #ffffff;
+      z-index: 10;
+    }
+
+    .feedback {
+      min-height: 24px;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      margin-top: 8px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bg-music" loop preload="auto">
+    <source src="audio.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- SCREEN 1: PASSCODE -->
+  <div class="card active" id="screen-1">
+    <h2 class="center-text">Bestie Access Only 🔐</h2>
+    <p class="center-text">Enter the passcode to unlock this bestie surprise page!</p>
+    
+    <div class="pin-display">
+      <div class="pin-dot" id="dot-0"></div>
+      <div class="pin-dot" id="dot-1"></div>
+      <div class="pin-dot" id="dot-2"></div>
+      <div class="pin-dot" id="dot-3"></div>
+    </div>
+
+    <div class="keypad">
+      <div class="key" onclick="pressPin('1')">1</div>
+      <div class="key" onclick="pressPin('2')">2</div>
+      <div class="key" onclick="pressPin('3')">3</div>
+      <div class="key" onclick="pressPin('4')">4</div>
+      <div class="key" onclick="pressPin('5')">5</div>
+      <div class="key" onclick="pressPin('6')">6</div>
+      <div class="key" onclick="pressPin('7')">7</div>
+      <div class="key" onclick="pressPin('8')">8</div>
+      <div class="key" onclick="pressPin('9')">9</div>
+      <div class="key" style="opacity: 0;"></div>
+      <div class="key" onclick="pressPin('0')">0</div>
+      <div class="key" onclick="clearPin()">⌫</div>
+    </div>
+
+    <div class="feedback" id="pin-feedback"></div>
+  </div>
+
+  <!-- SCREEN 2: INITIAL FRIENDSHIP LETTER -->
+  <div class="card" id="screen-2">
+    <h2 class="center-text">Hey Bestie! 👋✨</h2>
+    
+    <p>I just wanted to make something special for you to remind you how awesome our friendship is! Having a genuine, trustworthy, and hilarious friend like you in my life is a true blessing.</p>
+
+    <p>Whether we are laughing at dumb jokes, complaining about random stuff, or just catching up after a long day, talking to you always makes my day brighter and much lighter.</p>
+
+    <p>I put together a few fun interactive mini-games and coupons just for us. Let's see how well you can beat them all!</p>
+
+    <button class="btn" onclick="nextScreen(3)">Let's Play Games! 🎮</button>
+  </div>
+
+  <!-- SCREEN 3: GAME 1 - POP BALLOONS -->
+  <div class="card" id="screen-3">
+    <h2 class="center-text">Pop The Balloons 🎈</h2>
+    <p class="center-text">Pop 4 balloons to reveal what makes you great!</p>
+
+    <div class="balloon-area" id="balloon-board"></div>
+
+    <div class="feedback" id="balloon-feedback">Popped: 0 / 4</div>
+    <button class="btn" id="balloon-next" style="display: none;" onclick="nextScreen(4)">Next Game ➔</button>
+  </div>
+
+  <!-- SCREEN 4: GAME 2 - TIC TAC TOE -->
+  <div class="card" id="screen-4">
+    <h2 class="center-text">Tic-Tac-Toe 🎮</h2>
+    <p class="center-text">You are 🟡. Can you defeat the bot 🔵?</p>
+
+    <div class="ttt-board" id="ttt-board"></div>
+
+    <div class="feedback" id="ttt-feedback">Your turn! Tap any spot.</div>
+    
+    <div class="button-group">
+      <button class="btn btn-secondary" onclick="resetTTT()">Try Again 🔄</button>
+      <button class="btn" id="ttt-next" style="display: none;" onclick="nextScreen(5)">Continue ➔</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: GAME 3 - SCRATCH CARD -->
+  <div class="card" id="screen-5">
+    <h2 class="center-text">Scratch & Reveal 🪄</h2>
+    <p class="center-text">Scratch off the silver layer to reveal a secret note!</p>
+
+    <div class="scratch-container">
+      <div class="scratch-secret">"You're stuck with me as your friend forever! No refunds! 🤪"</div>
+      <canvas id="scratch-canvas" class="scratch-canvas" width="280" height="140"></canvas>
+    </div>
+
+    <div class="feedback" id="scratch-feedback">Use your finger/mouse to scratch!</div>
+    <button class="btn" onclick="nextScreen(6)">Next Game ➔</button>
+  </div>
+
+  <!-- SCREEN 6: GAME 4 - TRIVIA -->
+  <div class="card" id="screen-6">
+    <h2 class="center-text">Friend Trivia #1 💭</h2>
+    <p class="center-text">Who is my absolute favorite superhero character of all time?</p>
+    
+    <button class="option-btn" onclick="checkQuiz('Superman')">A) Superman</button>
+    <button class="option-btn" onclick="checkQuiz('Batman')">B) Batman 🦇</button>
+    <button class="option-btn" onclick="checkQuiz('Spider-Man')">C) Spider-Man</button>
+    <button class="option-btn" onclick="checkQuiz('Iron Man')">D) Iron Man</button>
+
+    <div class="feedback" id="quiz-feedback"></div>
+  </div>
+
+  <!-- SCREEN 7: GAME 5 - STAR CATCHER -->
+  <div class="card" id="screen-7">
+    <h2 class="center-text">Star Catcher ⭐</h2>
+    <p class="center-text">Catch 5 falling stars!</p>
+
+    <div class="catch-area" id="catch-board"></div>
+
+    <div class="feedback" id="catch-feedback">Score: 0 / 5</div>
+    <button class="btn" id="catch-next" style="display: none;" onclick="nextScreen(8)">Next Game ➔</button>
+  </div>
+
+  <!-- SCREEN 8: GAME 6 - MEMORY MATCH -->
+  <div class="card" id="screen-8">
+    <h2 class="center-text">Memory Match 🧩</h2>
+    <p class="center-text">Find all matching bestie pairs!</p>
+
+    <div class="memory-grid" id="memory-board"></div>
+
+    <div class="feedback" id="memory-feedback">Find 4 matching pairs!</div>
+    <button class="btn" id="memory-next" style="display: none;" onclick="nextScreen(9)">Claim Perks 🎟️</button>
+  </div>
+
+  <!-- SCREEN 9: GAME 7 - FRIENDSHIP PERKS -->
+  <div class="card" id="screen-9">
+    <h2 class="center-text">Bestie Perks 🎟️</h2>
+    <p class="center-text">Tap each coupon to claim your perks!</p>
+
+    <div class="coupon-grid">
+      <div class="coupon-card" onclick="claimCoupon(this, 'Free Coffee/Treat')">
+        <h3>☕ Free Treat</h3>
+        <span>On Me Next Time</span>
+      </div>
+      <div class="coupon-card" onclick="claimCoupon(this, 'Vent Session')">
+        <h3>🗣️ Rant Session</h3>
+        <span>Unlimited Listening</span>
+      </div>
+      <div class="coupon-card" onclick="claimCoupon(this, 'Hangout Session')">
+        <h3>🍕 Chill Hangout</h3>
+        <span>Whenever You Want</span>
+      </div>
+      <div class="coupon-card" onclick="claimCoupon(this, 'Aux Cord Pass')">
+        <h3>🎶 Music Pass</h3>
+        <span>Control The Playlist</span>
+      </div>
+    </div>
+
+    <div class="feedback" id="coupon-feedback">Tap all 4 cards to unlock!</div>
+    <button class="btn" id="coupon-next" style="display: none;" onclick="nextScreen(10)">Spin Wheel 🎡</button>
+  </div>
+
+  <!-- SCREEN 10: GAME 8 - WHEEL -->
+  <div class="card" id="screen-10">
+    <h2 class="center-text">Hangout Wheel 🎡</h2>
+    <p class="center-text">Spin to choose our next friend hangout idea!</p>
+
+    <div class="wheel-container">
+      <div class="pointer"></div>
+      <div class="wheel" id="wheel"></div>
+    </div>
+
+    <button class="btn" onclick="spinWheel()">Spin Wheel! 🎲</button>
+    <div class="feedback" id="wheel-feedback"></div>
+    <button class="btn" id="wheel-next" style="display: none;" onclick="nextScreen(11)">Final Note ➔</button>
+  </div>
+
+  <!-- SCREEN 11: FINAL FRIENDSHIP NOTE -->
+  <div class="card" id="screen-11">
+    <h2 class="center-text">Thanks For Being An Awesome Friend! 🤝✨</h2>
+    
+    <p>Hey again!</p>
+
+    <p>I just wanted to take a minute to say thank you for being such an incredible friend. Good friends who are supportive, trustworthy, and easy to talk to are super hard to come by, and I truly value having you in my life.</p>
+
+    <p>Whenever you're going through a tough time, stressed out, or just need someone to vent to without any judgment, always remember that I'm right here in your corner. We've got each other's backs!</p>
+
+    <p>Never change who you are—you're awesome just as you are. Looking forward to many more fun hangouts, stupid jokes, and good memories ahead!</p>
+
+    <p class="center-text" style="font-weight: 700; margin-top: 25px; color: #38bdf8; font-size: 1.1rem; line-height: 1.8;">
+      Stay awesome & keep shining! 🌟<br><br>
+      Your Bestie & Buddy 🤜🤛
+    </p>
+
+    <button class="btn" onclick="restart()">Replay Experience 🔁</button>
+  </div>
+
+  <script>
+    const CORRECT_PIN = "1201";
+    let currentPin = "";
+    const music = document.getElementById('bg-music');
+
+    function startAudio() {
+      if (music && music.paused) {
+        music.play().catch(e => console.log("Audio play blocked until interaction"));
+      }
+    }
+
+    function pressPin(num) {
+      startAudio();
+      if (currentPin.length < 4) {
+        currentPin += num;
+        updateDots();
+      }
+
+      if (currentPin.length === 4) {
+        if (currentPin === CORRECT_PIN) {
+          document.getElementById('pin-feedback').style.color = '#7effa0';
+          document.getElementById('pin-feedback').innerText = 'Access Granted 🎉';
+          setTimeout(() => nextScreen(2), 600);
+        } else {
+          document.getElementById('pin-feedback').style.color = '#ff6b6b';
+          document.getElementById('pin-feedback').innerText = 'Wrong passcode! Try again!';
+          setTimeout(clearPin, 800);
+        }
+      }
+    }
+
+    function clearPin() {
+      currentPin = "";
+      updateDots();
+    }
+
+    function updateDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i < currentPin.length) dot.classList.add('filled');
+        else dot.classList.remove('filled');
+      }
+    }
+
+    function nextScreen(screenNumber) {
+      document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+      document.getElementById(`screen-${screenNumber}`).classList.add('active');
+
+      if (screenNumber === 3 && !balloonInitialized) initBalloons();
+      if (screenNumber === 4 && !tttInitialized) initTTT();
+      if (screenNumber === 5 && !scratchInitialized) initScratch();
+      if (screenNumber === 7 && !catchInitialized) initCatchGame();
+      if (screenNumber === 8 && !memoryInitialized) initMemoryGame();
+    }
+
+    /* BALLOONS GAME */
+    let balloonInitialized = false;
+    let poppedCount = 0;
+    const balloonMsgs = ["Great humor!", "Always supportive!", "Super reliable!", "Awesome energy!"];
+    function initBalloons() {
+      balloonInitialized = true;
+      const board = document.getElementById('balloon-board');
+      
+      const interval = setInterval(() => {
+        if (poppedCount >= 4) { clearInterval(interval); return; }
+        const b = document.createElement('div');
+        b.classList.add('balloon');
+        b.innerText = ['🎈', '⭐', '🎈', '✨'][Math.floor(Math.random() * 4)];
+        b.style.left = Math.random() * 80 + 10 + '%';
+        
+        b.addEventListener('click', () => {
+          poppedCount++;
+          const msg = balloonMsgs[poppedCount - 1] || "You rock!";
+          document.getElementById('balloon-feedback').innerText = `Popped (${poppedCount}/4): ${msg}`;
+          b.remove();
+          if (poppedCount >= 4) {
+            document.getElementById('balloon-next').style.display = 'block';
+          }
+        });
+
+        board.appendChild(b);
+        setTimeout(() => b.remove(), 3000);
+      }, 800);
+    }
+
+    /* TIC TAC TOE */
+    let tttInitialized = false;
+    let tttState = ["", "", "", "", "", "", "", "", ""];
+    let tttGameOver = false;
+
+    function initTTT() {
+      tttInitialized = true;
+      resetTTT();
+    }
+
+    function resetTTT() {
+      tttState = ["", "", "", "", "", "", "", "", ""];
+      tttGameOver = false;
+      document.getElementById('ttt-feedback').style.color = '#38bdf8';
+      document.getElementById('ttt-feedback').innerText = "Your turn! Tap any spot.";
+      document.getElementById('ttt-next').style.display = 'none';
+
+      const board = document.getElementById('ttt-board');
+      board.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('ttt-cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', () => handleTTTClick(i, cell));
+        board.appendChild(cell);
+      }
+    }
+
+    function handleTTTClick(idx, cell) {
+      if (tttState[idx] !== "" || tttGameOver) return;
+      
+      tttState[idx] = "🟡";
+      cell.innerText = "🟡";
+
+      if (checkTTTWin("🟡")) {
+        tttGameOver = true;
+        document.getElementById('ttt-feedback').style.color = '#7effa0';
+        document.getElementById('ttt-feedback').innerText = "You Win! 🎉 Master of Tic-Tac-Toe!";
+        document.getElementById('ttt-next').style.display = 'block';
+        return;
+      }
+
+      if (tttState.every(cell => cell !== "")) {
+        tttGameOver = true;
+        document.getElementById('ttt-feedback').innerText = "It's a tie! Tap Try Again!";
+        return;
+      }
+
+      // Bot Turn (🔵)
+      let emptyIdxs = tttState.map((val, i) => val === "" ? i : null).filter(val => val !== null);
+      if (emptyIdxs.length > 0) {
+        let compChoice = emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)];
+        tttState[compChoice] = "🔵";
+        const cells = document.querySelectorAll('.ttt-cell');
+        cells[compChoice].innerText = "🔵";
+
+        if (checkTTTWin("🔵")) {
+          tttGameOver = true;
+          document.getElementById('ttt-feedback').style.color = '#ff6b6b';
+          document.getElementById('ttt-feedback').innerText = "Bot won this round! Tap Try Again 😉";
+          return;
+        }
+      }
+    }
+
+    function checkTTTWin(symbol) {
+      const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      return wins.some(combo => combo.every(i => tttState[i] === symbol));
+    }
+
+    /* SCRATCH CARD */
+    let scratchInitialized = false;
+    function initScratch() {
+      scratchInitialized = true;
+      const canvas = document.getElementById('scratch-canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#888888';
+      ctx.fillRect(0, 0, 280, 140);
+      
+      let isDrawing = false;
+      function scratch(e) {
+        if (!isDrawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+        const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 16, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      canvas.addEventListener('mousedown', () => isDrawing = true);
+      canvas.addEventListener('mouseup', () => isDrawing = false);
+      canvas.addEventListener('mousemove', scratch);
+      canvas.addEventListener('touchstart', () => isDrawing = true);
+      canvas.addEventListener('touchend', () => isDrawing = false);
+      canvas.addEventListener('touchmove', scratch);
+    }
+
+    /* TRIVIA */
+    function checkQuiz(ans) {
+      const fb = document.getElementById('quiz-feedback');
+      if (ans === 'Batman') {
+        fb.style.color = '#7effa0';
+        fb.innerText = 'Correct! 🦇 Batman always!';
+        setTimeout(() => nextScreen(7), 800);
+      } else {
+        fb.style.color = '#ff6b6b';
+        fb.innerText = 'Nope! Try again 😉';
+      }
+    }
+
+    /* CATCH STARS */
+    let catchInitialized = false;
+    let catchScore = 0;
+    function initCatchGame() {
+      catchInitialized = true;
+      const board = document.getElementById('catch-board');
+      const spawnInterval = setInterval(() => {
+        if (catchScore >= 5) { clearInterval(spawnInterval); return; }
+        const star = document.createElement('div');
+        star.classList.add('falling-star');
+        star.innerText = ['⭐', '🌟', '✨'][Math.floor(Math.random() * 3)];
+        star.style.left = Math.random() * 80 + 10 + '%';
+
+        star.addEventListener('click', () => {
+          catchScore++;
+          document.getElementById('catch-feedback').innerText = `Score: ${catchScore} / 5`;
+          star.remove();
+          if (catchScore >= 5) {
+            document.getElementById('catch-feedback').style.color = '#7effa0';
+            document.getElementById('catch-feedback').innerText = 'You caught all the stars! 🎉';
+            document.getElementById('catch-next').style.display = 'block';
+          }
+        });
+
+        board.appendChild(star);
+        setTimeout(() => star.remove(), 2200);
+      }, 700);
+    }
+
+    /* MEMORY GAME */
+    const icons = ['⭐', '🦇', '🍕', '🎶', '⭐', '🦇', '🍕', '🎶'];
+    let memoryInitialized = false, flippedCards = [], matchedPairs = 0;
+    function initMemoryGame() {
+      memoryInitialized = true;
+      const board = document.getElementById('memory-board');
+      const shuffled = icons.sort(() => Math.random() - 0.5);
+      board.innerHTML = '';
+      shuffled.forEach((icon, index) => {
+        const tile = document.createElement('div');
+        tile.classList.add('memory-tile');
+        tile.dataset.icon = icon;
+        tile.innerText = '❓';
+        tile.addEventListener('click', () => handleTileClick(tile));
+        board.appendChild(tile);
+      });
+    }
+
+    function handleTileClick(tile) {
+      if (flippedCards.length < 2 && !tile.classList.contains('matched') && !flippedCards.includes(tile)) {
+        tile.innerText = tile.dataset.icon;
+        flippedCards.push(tile);
+        if (flippedCards.length === 2) {
+          const [card1, card2] = flippedCards;
+          if (card1.dataset.icon === card2.dataset.icon) {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            flippedCards = [];
+            matchedPairs++;
+            if (matchedPairs === 4) {
+              document.getElementById('memory-next').style.display = 'block';
+            }
+          } else {
+            setTimeout(() => {
+              card1.innerText = '❓';
+              card2.innerText = '❓';
+              flippedCards = [];
+            }, 700);
+          }
+        }
+      }
+    }
+
+    /* COUPONS */
+    let claimedCount = 0;
+    function claimCoupon(el, title) {
+      if (!el.classList.contains('redeemed')) {
+        el.classList.add('redeemed');
+        claimedCount++;
+        document.getElementById('coupon-feedback').innerText = `Claimed: ${title} (${claimedCount}/4)`;
+        if (claimedCount === 4) document.getElementById('coupon-next').style.display = 'block';
+      }
+    }
+
+    /* WHEEL */
+    let spun = false;
+    function spinWheel() {
+      if (spun) return;
+      spun = true;
+      const wheel = document.getElementById('wheel');
+      wheel.style.transform = `rotate(${1440 + Math.floor(Math.random() * 360)}deg)`;
+      setTimeout(() => {
+        document.getElementById('wheel-feedback').innerText = 'Result: Pizza & Movie Hangout! 🍕🎬';
+        document.getElementById('wheel-next').style.display = 'block';
+      }, 3100);
+    }
+
+    function restart() {
+      location.reload();
+    }
+  </script>
+</body>
+</html>
